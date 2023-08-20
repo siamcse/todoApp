@@ -13,7 +13,7 @@ const Login = () => {
         if (user?.email) {
             navigate('/todos');
         }
-    }, [user])
+    }, [user,navigate])
 
     const handleLogin = (data) => {
         console.log(data);
