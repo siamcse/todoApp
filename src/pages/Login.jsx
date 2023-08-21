@@ -5,7 +5,7 @@ import { AuthContext } from '../contexts/AuthProvider';
 
 const Login = () => {
     const { register, handleSubmit, reset } = useForm();
-    const { user } = useContext(AuthContext);
+    const { user, login, loading } = useContext(AuthContext);
     const navigate = useNavigate();
     console.log(user)
 
@@ -13,10 +13,17 @@ const Login = () => {
         if (user?.email) {
             navigate('/todos');
         }
-    }, [user,navigate])
+    }, [user, navigate])
 
     const handleLogin = (data) => {
         console.log(data);
+        login(data.email, data.password)
+            .then(result => {
+                navigate('/todos');
+            })
+    }
+    if(loading){
+        return <div className='min-h-screen flex justify-center items-center'>Loading...</div>
     }
     return (
         <div>

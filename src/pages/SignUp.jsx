@@ -1,11 +1,28 @@
+import { useContext } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../contexts/AuthProvider";
 
 const SignUp = () => {
     const { register, handleSubmit, reset } = useForm();
+    const { user, createUser, profileUpdate } = useContext(AuthContext);
+    const navigate = useNavigate();
 
     const handleLogin = (data) => {
         console.log(data);
+        createUser(data.email, data.password)
+            .then(result => {
+                profileUpdate(data.name)
+                    .then(result => {
+                        const currentUser = {
+                            name: data.name,
+                            email: data.email,
+                            password: data.password
+                        }
+                        navigate('/todos')
+                    })
+            })
+            .catch(e => console.log(e))
     }
     return (
         <div className="container mx-auto">
