@@ -17,8 +17,8 @@ const Todos = () => {
                 <h1 className='text-5xl text-center'>Welcome {user?.displayName}!</h1>
                 <form onSubmit={handleSubmit(handleTodo)} className='flex items-center justify-center mt-10 gap-4'>
                     <input {...register("todo", { required: true })} placeholder="Type here" className="input input-bordered w-full max-w-xs" type="text" />
-                    <input type="submit" className='btn btn-success' />
-                    <button className="btn btn-error">Remove All</button>
+                    <input type="submit" className='btn  text-white btn-success' />
+                    <button className="btn  text-white btn-error">Remove All</button>
                 </form>
             </div>
             <TodoList />
