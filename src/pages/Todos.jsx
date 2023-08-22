@@ -35,10 +35,9 @@ const Todos = () => {
         <div className='container mx-auto'>
             <div className='mt-16'>
                 <h1 className='text-3xl md:text-5xl text-center'>Welcome {user?.displayName}!</h1>
-                <form onSubmit={handleSubmit(handleAddTodo)} className='flex items-center justify-center mt-10 gap-4'>
+                <form onSubmit={handleSubmit(handleAddTodo)} className='flex flex-col sm:flex-row items-center justify-center mt-10 p-2 md:p-0 gap-4'>
                     <input {...register("todo", { required: true })} placeholder="Type here" className="input input-bordered w-full max-w-xs" type="text" />
-                    <input type="submit" className='btn  text-white btn-success' />
-                    <button className="btn  text-white btn-error">Remove All</button>
+                    <input type="submit" className='btn btn-md  text-white btn-success' />
                 </form>
             </div>
             <TodoList setRefresh={setRefresh} refresh={refresh} />
