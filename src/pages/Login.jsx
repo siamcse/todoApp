@@ -2,6 +2,7 @@ import { useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthProvider';
+import Loader from '../loader/Loader';
 
 const Login = () => {
     const { register, handleSubmit, reset } = useForm();
@@ -22,8 +23,8 @@ const Login = () => {
                 navigate('/todos');
             })
     }
-    if(loading){
-        return <div className='min-h-screen flex justify-center items-center'>Loading...</div>
+    if (loading) {
+        return <Loader />
     }
     return (
         <div>

@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthProvider';
+import Loader from '../loader/Loader';
 
 
 const PrivateRoutes = ({ children }) => {
@@ -8,7 +9,7 @@ const PrivateRoutes = ({ children }) => {
     const location = useLocation();
 
     if (loading) {
-        return <div className='min-h-screen flex justify-center items-center'>Loading...</div>
+        return <Loader />
     }
 
     if (user) {
