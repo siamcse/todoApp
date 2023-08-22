@@ -1,14 +1,21 @@
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useContext, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
+import { AuthContext } from "../contexts/AuthProvider";
 
 const TodoList = ({ refresh, setRefresh }) => {
-    const [todos, setTodos] = useState([]);
+    // const [todos, setTodos] = useState([]);
+    const {user} = useContext(AuthContext);
 
-    useEffect(() => {
-        fetch('http://localhost:5000/todos')
-            .then(res => res.json())
-            .then(data => setTodos(data))
-    }, [refresh])
+
+    const { data: todos = [], refetch } = useQuery({
+        queryKey: ['users',refresh],
+        queryFn: async () => {
+            const res = await fetch(`http://localhost:5000/todos?email=${user?.email}`);
+            const data = await res.json();
+            return data;
+        }
+    });
 
     const handleDelete = (id) => {
         fetch(`http://localhost:5000/todos/${id}`, {
@@ -18,7 +25,7 @@ const TodoList = ({ refresh, setRefresh }) => {
             .then(data => {
                 if (data.deletedCount > 0) {
                     toast.success('Deleted Successfully.');
-                    setRefresh((prev) => setRefresh(!prev));
+                    refetch();
                 }
             })
 
@@ -38,7 +45,7 @@ const TodoList = ({ refresh, setRefresh }) => {
                 console.log(data);
                 if (data.modifiedCount > 0) {
                     toast.success('Thanks for done this todos.');
-                    setRefresh((prev) => setRefresh(!prev));
+                    refetch();
                 }
             })
 
@@ -58,17 +65,18 @@ const TodoList = ({ refresh, setRefresh }) => {
                 console.log(data);
                 if (data.modifiedCount > 0) {
                     toast.success('Carefully do this work.');
-                    setRefresh((prev) => setRefresh(!prev));
+                    refetch();
                 }
             })
 
     }
+    console.log(todos);
     return (
         <div className='flex justify-start mt-10'>
             <ol className='list-decimal w-[700px] mx-auto shadow-md rounded p-3'>
                 {
                     todos?.map((todo, i) => <li key={todo._id} className='p-2 flex flex-col sm:flex-row justify-between sm:items-center gap-3'>
-                        <p>{i + 1}. <span className={todo.status && 'line-through'}>{todo.todo}</span></p>
+                        <p>{i + 1}. <span className={todo.status ? 'line-through' : ''}>{todo.todo}</span></p>
                         <div>
                             {
                                 todo?.status ? <button onClick={() => handleUndo(todo._id)} className="btn btn-sm text-white btn-success mr-2">Undone</button>
