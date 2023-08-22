@@ -2,10 +2,11 @@ import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthProvider";
+import { toast } from "react-hot-toast";
 
 const SignUp = () => {
     const { register, handleSubmit, reset } = useForm();
-    const { user, createUser, profileUpdate } = useContext(AuthContext);
+    const { createUser, profileUpdate } = useContext(AuthContext);
     const navigate = useNavigate();
 
     const handleLogin = (data) => {
@@ -16,13 +17,29 @@ const SignUp = () => {
                     .then(result => {
                         const currentUser = {
                             name: data.name,
-                            email: data.email,
-                            password: data.password
+                            email: data.email
                         }
+                        saveUserDB(currentUser);
                         navigate('/todos')
                     })
             })
             .catch(e => console.log(e))
+    }
+
+    const saveUserDB = (user) => {
+        fetch('http://localhost:5000/users', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(user)
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.acknowledged) {
+                    toast.success('Signup Successful!');
+                }
+            })
     }
     return (
         <div className="container mx-auto">

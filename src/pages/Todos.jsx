@@ -2,6 +2,7 @@ import { useContext } from 'react';
 import TodoList from './TodoList';
 import { useForm } from 'react-hook-form';
 import { AuthContext } from '../contexts/AuthProvider';
+import { toast } from 'react-hot-toast';
 
 const Todos = () => {
     const { register, handleSubmit, reset } = useForm();
@@ -9,6 +10,19 @@ const Todos = () => {
 
     const handleTodo = (data) => {
         console.log(data);
+        fetch('http://localhost:5000/todos',{
+            method: 'POST',
+            headers:{
+                'content-type':'application/json'
+            },
+            body:JSON.stringify(data)
+        })
+        .then(res=>res.json())
+        .then(data=>{
+            if (data.acknowledged){
+                toast.success('Todo added successfully.');
+            }
+        })
         reset();
     }
     return (
