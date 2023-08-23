@@ -15,7 +15,7 @@ const Todos = () => {
             email: user?.email,
             todo: data.todo
         }
-        fetch('http://localhost:5000/todos', {
+        fetch('https://todo-app-server-siamcse.vercel.app/todos', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'

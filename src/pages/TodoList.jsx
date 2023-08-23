@@ -4,21 +4,19 @@ import { toast } from "react-hot-toast";
 import { AuthContext } from "../contexts/AuthProvider";
 
 const TodoList = ({ refresh, setRefresh }) => {
-    // const [todos, setTodos] = useState([]);
-    const {user} = useContext(AuthContext);
-
+    const { user } = useContext(AuthContext);
 
     const { data: todos = [], refetch } = useQuery({
-        queryKey: ['users',refresh],
+        queryKey: ['users', refresh],
         queryFn: async () => {
-            const res = await fetch(`http://localhost:5000/todos?email=${user?.email}`);
+            const res = await fetch(`https://todo-app-server-siamcse.vercel.app/todos?email=${user?.email}`);
             const data = await res.json();
             return data;
         }
     });
 
     const handleDelete = (id) => {
-        fetch(`http://localhost:5000/todos/${id}`, {
+        fetch(`https://todo-app-server-siamcse.vercel.app/todos/${id}`, {
             method: 'DELETE',
         })
             .then(res => res.json())
@@ -33,7 +31,7 @@ const TodoList = ({ refresh, setRefresh }) => {
 
     const handleUpdate = (id) => {
         console.log(id);
-        fetch(`http://localhost:5000/todos/${id}`, {
+        fetch(`https://todo-app-server-siamcse.vercel.app/todos/${id}`, {
             method: 'PUT',
             headers: {
                 'content-type': 'application/json'
@@ -53,7 +51,7 @@ const TodoList = ({ refresh, setRefresh }) => {
 
     const handleUndo = (id) => {
         console.log(id);
-        fetch(`http://localhost:5000/todos/${id}`, {
+        fetch(`https://todo-app-server-siamcse.vercel.app/todos/${id}`, {
             method: 'PUT',
             headers: {
                 'content-type': 'application/json'
@@ -70,7 +68,6 @@ const TodoList = ({ refresh, setRefresh }) => {
             })
 
     }
-    console.log(todos);
     return (
         <div className='flex justify-start mt-10'>
             <ol className='list-decimal w-[700px] mx-auto shadow-md rounded p-3'>

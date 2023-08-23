@@ -27,7 +27,7 @@ const SignUp = () => {
     }
 
     const saveUserDB = (user) => {
-        fetch('http://localhost:5000/users', {
+        fetch('https://todo-app-server-siamcse.vercel.app/users', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
